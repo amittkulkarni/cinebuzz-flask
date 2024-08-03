@@ -3,5 +3,4 @@ flask-sqlalchemy
 flask-restx
 flask-cors
 flask-jwt-extended
-psycopg2-binary
 flask-migrate
