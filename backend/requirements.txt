@@ -1,6 +1,0 @@
-flask
-flask-sqlalchemy
-flask-restx
-flask-cors
-flask-jwt-extended
-flask-migrate
