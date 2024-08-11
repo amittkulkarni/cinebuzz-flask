@@ -1,6 +1,6 @@
 from . import app
 
 
-@app.route('/')
+@app.route("/")
 def home():
-    return 'Hello World!'
+    return "Hello World!"

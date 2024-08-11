@@ -1,8 +1,8 @@
+from api_models import movie_model, reservation_model, showtime_model, theatre_model, user_model
 from flask_restx import Resource
-from api_models import user_model, movie_model, theatre_model, showtime_model, reservation_model
-from backend import api
-from backend.models import User, Movie, Theatre, Showtime, Reservation
 
+from backend import api
+from backend.models import Movie, Reservation, Showtime, Theatre, User
 
 # ------------------------------------------------------------------------------------
 
@@ -11,15 +11,15 @@ from backend.models import User, Movie, Theatre, Showtime, Reservation
 # ------------------------------------------------------------------------------------
 
 
-@api.route('/users', '/users/<int:id>')
+@api.route("/users", "/users/<int:id>")
 class UserResource(Resource):
     @api.marshal_with(user_model)
     def get(self):
-        user = User.query.filter_by(role='Customer').first()
+        user = User.query.filter_by(role="Customer").first()
         return user
 
 
-@api.route('/movies', '/movies/<int:id>')
+@api.route("/movies", "/movies/<int:id>")
 class MovieResource(Resource):
     @api.marshal_with(movie_model)
     def get(self):
@@ -27,7 +27,7 @@ class MovieResource(Resource):
         return movie
 
 
-@api.route('/theatres', '/theatres/<int:id>')
+@api.route("/theatres", "/theatres/<int:id>")
 class TheatreResource(Resource):
     @api.marshal_with(theatre_model)
     def get(self):
@@ -35,7 +35,7 @@ class TheatreResource(Resource):
         return theatre
 
 
-@api.route('/showtimes', '/showtimes/<int:id>')
+@api.route("/showtimes", "/showtimes/<int:id>")
 class ShowtimeResource(Resource):
     @api.marshal_with(showtime_model)
     def get(self):
@@ -43,7 +43,7 @@ class ShowtimeResource(Resource):
         return showtime
 
 
-@api.route('/reservations/<int:id>')
+@api.route("/reservations/<int:id>")
 class ReservationResource(Resource):
     @api.marshal_with(reservation_model)
     def get(self):

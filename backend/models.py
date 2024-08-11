@@ -1,5 +1,6 @@
-from backend import db
 from datetime import datetime
+
+from backend import db
 
 
 class User(db.Model):
@@ -7,9 +8,9 @@ class User(db.Model):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
-    role = db.Column(db.Enum('Admin', 'Customer', 'SuperAdmin', name='role'), nullable=False)
+    role = db.Column(db.Enum("Admin", "Customer", "SuperAdmin", name="role"), nullable=False)
     phone = db.Column(db.String(20), nullable=True)
-    reservations = db.relationship('Reservation', backref='user', lazy=True)
+    reservations = db.relationship("Reservation", backref="user", lazy=True)
 
 
 class Movie(db.Model):
@@ -24,7 +25,7 @@ class Movie(db.Model):
     duration = db.Column(db.Integer, nullable=False)
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
-    showtimes = db.relationship('Showtime', backref='movie', lazy=True)
+    showtimes = db.relationship("Showtime", backref="movie", lazy=True)
 
 
 class Theatre(db.Model):
@@ -34,7 +35,7 @@ class Theatre(db.Model):
     ticket_price = db.Column(db.Float, nullable=False)
     seats = db.Column(db.JSON, nullable=False)  # Stored as JSON for flexible seat arrangement
     image = db.Column(db.String(200), nullable=True)
-    showtimes = db.relationship('Showtime', backref='theatre', lazy=True)
+    showtimes = db.relationship("Showtime", backref="theatre", lazy=True)
 
 
 class Showtime(db.Model):
@@ -42,9 +43,9 @@ class Showtime(db.Model):
     ticket_price = db.Column(db.Float, nullable=False)
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
-    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'), nullable=False)
-    theatre_id = db.Column(db.Integer, db.ForeignKey('theatre.id'), nullable=False)
-    reservations = db.relationship('Reservation', backref='showtime', lazy=True)
+    movie_id = db.Column(db.Integer, db.ForeignKey("movie.id"), nullable=False)
+    theatre_id = db.Column(db.Integer, db.ForeignKey("theatre.id"), nullable=False)
+    reservations = db.relationship("Reservation", backref="showtime", lazy=True)
 
 
 class Reservation(db.Model):
@@ -54,5 +55,5 @@ class Reservation(db.Model):
     seats = db.Column(db.JSON, nullable=False)  # Stored as JSON for seat details
     order_id = db.Column(db.String(100), unique=True, nullable=False)
     total = db.Column(db.Float, nullable=False)
-    showtime_id = db.Column(db.Integer, db.ForeignKey('showtime.id'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    showtime_id = db.Column(db.Integer, db.ForeignKey("showtime.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
