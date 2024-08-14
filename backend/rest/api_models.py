@@ -24,11 +24,8 @@ movie_model = api.model(
         "language": fields.String,
         "genre": fields.String,
         "director": fields.String,
-        "trailer": fields.String,
         "description": fields.String,
-        "duration": fields.Integer,
-        "start_date": fields.DateTime(dt_format="iso8601"),
-        "end_date": fields.DateTime(dt_format="iso8601"),
+        "duration": fields.Integer
     },
 )
 
@@ -38,10 +35,7 @@ theatre_model = api.model(
     {
         "id": fields.Integer,
         "name": fields.String,
-        "city": fields.String,
-        "ticket_price": fields.Float,
         "seats": fields.Raw,  # JSON field, raw representation
-        "image": fields.String,
     },
 )
 
@@ -51,8 +45,8 @@ showtime_model = api.model(
     {
         "id": fields.Integer,
         "ticket_price": fields.Float,
-        "start_date": fields.DateTime(dt_format="iso8601"),
-        "end_date": fields.DateTime(dt_format="iso8601"),
+        "start_time": fields.DateTime(dt_format="iso8601"),
+        "end_time": fields.DateTime(dt_format="iso8601"),
         "movie_id": fields.Integer,  # Foreign key
         "theatre_id": fields.Integer,  # Foreign key
     },

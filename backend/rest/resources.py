@@ -1,4 +1,4 @@
-from api_models import movie_model, reservation_model, showtime_model, theatre_model, user_model
+from .api_models import movie_model, reservation_model, showtime_model, theatre_model, user_model
 from flask_restx import Resource
 
 from backend import api
@@ -31,8 +31,8 @@ class MovieResource(Resource):
 class TheatreResource(Resource):
     @api.marshal_with(theatre_model)
     def get(self):
-        theatre = Theatre.query.all()
-        return theatre
+        theatres = Theatre.query.all()
+        return theatres, 200
 
 
 @api.route("/showtimes", "/showtimes/<int:id>")
