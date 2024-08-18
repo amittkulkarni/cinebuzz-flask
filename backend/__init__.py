@@ -28,13 +28,13 @@ def create_tables():
 
     db.create_all()
     if not User.query.filter_by(name="admin").first():
-        super_admin = User(
+        admin = User(
             name="admin",
             email="admin@email.com",
             password="admin123",
             role="Admin",
         )
-        db.session.add(super_admin)
+        db.session.add(admin)
         db.session.commit()
 
 

@@ -6,10 +6,10 @@ from backend import api
 user_model = api.model(
     "User",
     {
-        "id": fields.Integer,
-        "name": fields.String,
-        "email": fields.String,
-        "role": fields.String,  # Enum stored as String in API model
+        "id": fields.Integer(required=True),
+        "name": fields.String(required=True),
+        "email": fields.String(required=True),
+        "role": fields.String(required=True),
         "phone": fields.String,
     },
 )
@@ -19,13 +19,13 @@ movie_model = api.model(
     "Movie",
     {
         "id": fields.Integer,
-        "title": fields.String,
-        "image": fields.String,
-        "language": fields.String,
-        "genre": fields.String,
-        "director": fields.String,
+        "title": fields.String(required=True),
+        "image": fields.String(required=True),
+        "language": fields.String(required=True),
+        "genre": fields.String(required=True),
+        "director": fields.String(required=True),
         "description": fields.String,
-        "duration": fields.Integer,
+        "duration": fields.Integer(required=True),
     },
 )
 
@@ -34,8 +34,8 @@ theatre_model = api.model(
     "Theatre",
     {
         "id": fields.Integer,
-        "name": fields.String,
-        "seats": fields.Raw,  # JSON field, raw representation
+        "name": fields.String(required=True),
+        "seats": fields.Raw(required=True),
     },
 )
 
@@ -44,9 +44,9 @@ showtime_model = api.model(
     "Showtime",
     {
         "id": fields.Integer,
-        "ticket_price": fields.Float,
-        "start_time": fields.DateTime(dt_format="iso8601"),
-        "end_time": fields.DateTime(dt_format="iso8601"),
+        "ticket_price": fields.Float(required=True),
+        "start_time": fields.DateTime(dt_format="iso8601", required=True),
+        "end_time": fields.DateTime(dt_format="iso8601", required=True),
         "movie_id": fields.Integer,  # Foreign key
         "theatre_id": fields.Integer,  # Foreign key
     },
@@ -57,11 +57,10 @@ reservation_model = api.model(
     "Reservation",
     {
         "id": fields.Integer,
-        "date": fields.DateTime(dt_format="iso8601"),
-        "start_at": fields.DateTime(dt_format="iso8601"),
-        "seats": fields.Raw,  # JSON field, raw representation
-        "order_id": fields.String,
-        "total": fields.Float,
+        "date": fields.DateTime(dt_format="iso8601", required=True),
+        "seats": fields.Raw(required=True),
+        "order_id": fields.String(required=True),
+        "total_price": fields.Float(required=True),
         "showtime_id": fields.Integer,  # Foreign key
         "user_id": fields.Integer,  # Foreign key
     },

@@ -28,8 +28,8 @@ class Movie(db.Model):
 class Theatre(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    seats = db.Column(db.JSON, nullable=False)  # Stored as JSON for flexible seat arrangement
-    showtimes = db.relationship("Showtime", backref="theatre", lazy=True)
+    seats = db.Column(db.JSON, nullable=False)
+    showtimes = db.relationship("Showtime", back_populates="theatre", lazy=True)
 
     def as_dict(self):
         return {"id": self.id, "name": self.name, "seats": self.seats}
@@ -43,6 +43,7 @@ class Showtime(db.Model):
     movie_id = db.Column(db.Integer, db.ForeignKey("movie.id"), nullable=False)
     theatre_id = db.Column(db.Integer, db.ForeignKey("theatre.id"), nullable=False)
     reservations = db.relationship("Reservation", backref="showtime", lazy=True)
+    theatre = db.relationship("Theatre", back_populates="showtimes", lazy=True)
 
 
 class Reservation(db.Model):

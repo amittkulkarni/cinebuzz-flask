@@ -1,7 +1,7 @@
 from flask import jsonify
 from flask_restx import Resource
 
-from backend import api
+from backend import api, db
 from backend.models import Movie, Reservation, Showtime, Theatre, User
 
 from .api_models import movie_model, reservation_model, showtime_model, theatre_model, user_model
@@ -13,7 +13,7 @@ from .api_models import movie_model, reservation_model, showtime_model, theatre_
 # ------------------------------------------------------------------------------------
 
 
-@api.route("/users", "/users/<int:id>")
+@api.route("/users")
 class UserResource(Resource):
     @api.marshal_with(user_model)
     def get(self):
@@ -28,6 +28,21 @@ class MovieResource(Resource):
         movie = Movie.query.all()
         return movie, 200
 
+    @api.expect(movie_model)
+    def post(self):
+        movie = Movie(
+            title=api.payload["title"],
+            image=api.payload["image"],
+            language=api.payload["language"],
+            genre=api.payload["genre"],
+            director=api.payload["director"],
+            description=api.payload["description"],
+            duration=api.payload["duration"],
+        )
+        db.session.add(movie)
+        db.session.commit()
+        return {"message": "Movie added successfully"}, 201
+
 
 @api.route("/movies/<int:id>")
 class MovieResource(Resource):
@@ -37,7 +52,7 @@ class MovieResource(Resource):
         return movie, 200
 
 
-@api.route("/theatres", "/theatres/<int:id>")
+@api.route("/theatres")
 class TheatreResource(Resource):
     @api.marshal_with(theatre_model)
     def get(self):
@@ -45,15 +60,15 @@ class TheatreResource(Resource):
         return theatres, 200
 
 
-@api.route("/showtimes", "/showtimes/<int:id>")
+@api.route("/movies/<int:id>/showtimes")
 class ShowtimeResource(Resource):
     @api.marshal_with(showtime_model)
-    def get(self):
-        showtime = Showtime.query.all()
+    def get(self, id):
+        showtime = Showtime.query.filter_by(movie_id=id).all()
         return showtime, 200
 
 
-@api.route("/reservations/<int:id>")
+@api.route("/reservations")
 class ReservationResource(Resource):
     @api.marshal_with(reservation_model)
     def get(self):
