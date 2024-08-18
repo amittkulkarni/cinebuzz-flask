@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from backend import db
 
 
@@ -31,11 +32,7 @@ class Theatre(db.Model):
     showtimes = db.relationship("Showtime", backref="theatre", lazy=True)
 
     def as_dict(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "seats": self.seats
-        }
+        return {"id": self.id, "name": self.name, "seats": self.seats}
 
 
 class Showtime(db.Model):

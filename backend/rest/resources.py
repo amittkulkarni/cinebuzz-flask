@@ -1,9 +1,10 @@
-from .api_models import movie_model, reservation_model, showtime_model, theatre_model, user_model
-from flask_restx import Resource
 from flask import jsonify
+from flask_restx import Resource
 
 from backend import api
 from backend.models import Movie, Reservation, Showtime, Theatre, User
+
+from .api_models import movie_model, reservation_model, showtime_model, theatre_model, user_model
 
 # ------------------------------------------------------------------------------------
 

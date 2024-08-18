@@ -25,7 +25,7 @@ movie_model = api.model(
         "genre": fields.String,
         "director": fields.String,
         "description": fields.String,
-        "duration": fields.Integer
+        "duration": fields.Integer,
     },
 )
 
