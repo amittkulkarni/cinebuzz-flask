@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Cinebuzz Movie Booking Backend"
 authors = ["lamergameryt <ifung230@gmail.com>", "amittkulkarni <kulkarniamit953@gmail.com>"]
 license = "MIT"
-readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -15,6 +15,7 @@ flask-cors = "^4.0.1"
 flask-jwt-extended = "^4.6.0"
 flask-migrate = "^4.0.7"
 python-dotenv = "^1.0.1"
+psycopg2 = "^2.9.9"
 
 [build-system]
 requires = ["poetry-core"]
