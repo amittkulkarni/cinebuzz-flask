@@ -1,16 +1,54 @@
 from flask import jsonify
 from flask_restx import Resource
+from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 
 from backend import api, db
 from backend.models import Movie, Reservation, Showtime, Theatre, User
 
 from .api_models import movie_model, reservation_model, showtime_model, theatre_model, user_model
 
-# ------------------------------------------------------------------------------------
 
-# This is for testing purposes, not final. Will be completed later. Feel free to add.
+def role_required(required_role):
+    def wrapper(func):
+        @jwt_required()
+        def decorator(*args, **kwargs):
+            user_id = get_jwt_identity()
+            user = User.query.get(user_id)
+            if user.role != required_role:
+                return {"message": "Access Forbidden"}, 403
+            return func(*args, **kwargs)
 
-# ------------------------------------------------------------------------------------
+        return decorator
+
+    return wrapper
+
+
+@api.route("/login")
+class LoginResource(Resource):
+    def post(self):
+        user = User.query.filter_by(email=api.payload["email"]).first()
+        if user and user.password == api.payload["password"]:
+            access_token = create_access_token(identity=user.id, additional_claims={"role": user.role})
+            return {"access_token": access_token, "role": user.role}, 200
+        else:
+            return {"message": "Invalid email or password"}, 401
+
+
+@api.route("/register")
+class RegisterResource(Resource):
+    def post(self):
+        if User.query.filter_by(email=api.payload["email"]).first():
+            return {"message": "User already exists"}, 409
+        user = User(
+            name=api.payload["name"],
+            email=api.payload["email"],
+            password=api.payload["password"],
+            role=api.payload["role"],
+            phone=api.payload["phone"]
+        )
+        db.session.add(user)
+        db.session.commit()
+        return {"message": "User added successfully"}, 201
 
 
 @api.route("/users")
@@ -29,6 +67,7 @@ class MovieResource(Resource):
         return movie, 200
 
     @api.expect(movie_model)
+    @role_required("Manager")
     def post(self):
         movie = Movie(
             title=api.payload["title"],
@@ -41,7 +80,7 @@ class MovieResource(Resource):
         )
         db.session.add(movie)
         db.session.commit()
-        return {"message": "Movie added successfully"}, 201
+        return jsonify({"message": "Movie added successfully"}), 201
 
 
 @api.route("/movies/<int:id>")
