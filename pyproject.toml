@@ -2,7 +2,7 @@
 name = "cinebuzz-backend"
 version = "0.1.0"
 description = "Cinebuzz Movie Booking Backend"
-authors = ["lamergameryt <ifung230@gmail.com>"]
+authors = ["lamergameryt <ifung230@gmail.com>", "amittkulkarni <kulkarniamit953@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 
